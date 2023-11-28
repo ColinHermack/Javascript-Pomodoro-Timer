@@ -55,17 +55,21 @@ class App extends React.Component {
           seconds: 0,
           current: "Break"
         }))
+        document.getElementById("beep").play();
       } else if (this.state.current === "Break") {
         this.setState((oldState) => ({
           minutes: oldState.sessionlength,
           seconds: 0,
           current: "Session"
         }))
+        document.getElementById("beep").play();
       }
     }
   }
 
   reset() {
+    document.getElementById("beep").pause();
+    document.getElementById("beep").load();
     if (this.state.running) {
       this.toggleTimer();
     }
@@ -92,7 +96,7 @@ class App extends React.Component {
   }
 
   decrementBreak() {
-    if (this.state.breakLength > 0) {
+    if (this.state.breakLength > 1) {
       this.setState((oldState) => ({
         breakLength: oldState.breakLength - 1
       }));
@@ -118,7 +122,7 @@ class App extends React.Component {
   }
 
   decrementSession() {
-    if (this.state.sessionLength > 0) {
+    if (this.state.sessionLength > 1) {
       this.setState((oldState) => ({
         sessionLength: oldState.sessionLength - 1
       }))
@@ -170,6 +174,10 @@ class App extends React.Component {
             <button id="reset" className="timer-controls" onClick={this.reset}>Reset</button>
           </div>
         </div>
+        <audio id="beep">
+          <source src="/TimerBeep.mp3" type="audio/mpeg" />
+          Your browser does not support the audio element.
+        </audio>
       </div>
     )
   }
